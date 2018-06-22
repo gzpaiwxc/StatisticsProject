@@ -5,7 +5,12 @@ import android.os.Handler;
 import android.os.Message;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.net.URLEncoder;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * author: Gzp
@@ -40,6 +45,33 @@ public abstract class HttpRequest {
             }
         }
     };
+
+
+    /**
+     * 获取请求的参数
+     * @return
+     */
+    public String getParams() {
+        Map<String, Object> params = httpBody.getParams();
+        if (params == null || params.size() == 0) {
+            return null;
+        }
+        String data = "";
+        Set<Map.Entry<String, Object>> entrySet = params.entrySet();
+        Iterator<Map.Entry<String, Object>> iterator = entrySet.iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, Object> me = iterator.next();
+            String value = "" + me.getValue();
+            try {
+                value = URLEncoder.encode(value, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            data += me.getKey() + "=" + value + "&";
+        }
+        data = data.substring(0, data.lastIndexOf("&"));//去掉最后一个&
+        return data;
+    }
 
     /**
      * 请求方法

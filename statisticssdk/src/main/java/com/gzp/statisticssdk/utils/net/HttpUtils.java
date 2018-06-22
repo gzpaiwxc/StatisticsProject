@@ -68,6 +68,17 @@ public class HttpUtils {
         return this;
     }
 
+    /**
+     * 添加参数-键值对
+     * @param key
+     * @param value
+     * @return
+     */
+    public HttpUtils addParams(String key, Object value) {
+        httpBody.addParams(key, value);
+        return this;
+    }
+
 
 
     public HttpUtils doPostExecute(ICommCallBack callBack) {

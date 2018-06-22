@@ -45,6 +45,11 @@ public class HttpBody {
         this.params = params;
     }
 
+    public HttpBody addParams(String key, Object value) {
+        params.put(key, value);
+        return this;
+    }
+
     public int getReadTimeOut() {
         return readTimeOut;
     }

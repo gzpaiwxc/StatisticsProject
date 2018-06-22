@@ -40,10 +40,10 @@ public class PostRequest extends HttpRequest{
                             conn.setUseCaches(true);
                             conn.setDoInput(true);
                             conn.setDoOutput(true);
-                            conn.setRequestProperty("Content-Type", "application/json");
+                            conn.setRequestProperty("Content-Type", "text/plain");
                             conn.setRequestMethod("POST");
                             DataOutputStream outputStream = new DataOutputStream(conn.getOutputStream());
-                            outputStream.writeBytes(httpBody.getParams().toString());
+                            outputStream.writeBytes(getParams());
                             outputStream.flush();
                             outputStream.close();
                             if (conn.getResponseCode() == 200) {//请求成功
