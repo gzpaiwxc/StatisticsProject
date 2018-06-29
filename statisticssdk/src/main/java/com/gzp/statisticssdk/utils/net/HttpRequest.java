@@ -3,6 +3,13 @@ package com.gzp.statisticssdk.utils.net;
 import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
+
+import com.gzp.statisticssdk.utils.rsa.RSACipherStrategy;
+import com.gzp.statisticssdk.utils.rsa.RSAConstant;
+import com.gzp.statisticssdk.utils.rsa.RSAUtils;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -47,6 +54,25 @@ public abstract class HttpRequest {
     };
 
 
+    protected String getPostParams() {
+        Map<String, Object> params = httpBody.getParams();
+        String encryptData = "";
+        JSONObject jsonObject = new JSONObject(params);
+        try {
+            String data = URLEncoder.encode(jsonObject.toString(), "UTF-8");
+            RSACipherStrategy.getInstance().initPublicKey(RSAConstant.RSA_PUBLISH_KEY);
+            encryptData = RSACipherStrategy.getInstance().encrypt(data);
+            Log.e("Statistics", "上传的数据加密前===>" + data);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Log.e("Statistics", "上传的数据===>" + encryptData);
+        return encryptData;
+    }
+
     /**
      * 获取请求的参数
      * @return
@@ -69,6 +95,7 @@ public abstract class HttpRequest {
             }
             data += me.getKey() + "=" + value + "&";
         }
+            Log.e("Statistics", "get上传的数据===》" + data);
         data = data.substring(0, data.lastIndexOf("&"));//去掉最后一个&
         return data;
     }

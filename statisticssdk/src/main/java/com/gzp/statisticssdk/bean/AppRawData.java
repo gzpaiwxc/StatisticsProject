@@ -1,5 +1,7 @@
 package com.gzp.statisticssdk.bean;
 
+import java.util.Map;
+
 /**
  * author: Gzp
  * Create on 2018/6/22
@@ -37,7 +39,7 @@ public class AppRawData {
     private String countryISO;
     private String eventName;
     private String eventOffset;
-    private EventParametersEntity eventParameters;
+    private Map<String, Object> eventParameters;
     private String userId;
     private String gender;
     private String birthYear;
@@ -125,11 +127,11 @@ public class AppRawData {
         this.eventOffset = eventOffset;
     }
 
-    public EventParametersEntity getEventParameters() {
+    public Map<String, Object> getEventParameters() {
         return eventParameters;
     }
 
-    public void setEventParameters(EventParametersEntity eventParameters) {
+    public void setEventParameters(Map<String,Object> eventParameters) {
         this.eventParameters = eventParameters;
     }
 
@@ -195,6 +197,13 @@ public class AppRawData {
         public void setAndroidId(String AndroidId) {
             this.AndroidId = AndroidId;
         }
+
+        @Override
+        public String toString() {
+            return "DeviceIdentifiersEntity{" +
+                    "AndroidId='" + AndroidId + '\'' +
+                    '}';
+        }
     }
 
     public static class EventParametersEntity {
@@ -224,5 +233,29 @@ public class AppRawData {
     }
 
     public static class SessionPropertiesEntity {
+
+    }
+
+    @Override
+    public String toString() {
+        return "AppRawData{" +
+                "sessionTimestamp='" + sessionTimestamp + '\'' +
+                ", appVersion='" + appVersion + '\'' +
+                ", sessionDuration='" + sessionDuration + '\'' +
+                ", carrier='" + carrier + '\'' +
+                ", deviceIdentifiers=" + deviceIdentifiers +
+                ", deviceModel='" + deviceModel + '\'' +
+                ", deviceSubModel='" + deviceSubModel + '\'' +
+                ", countryISO='" + countryISO + '\'' +
+                ", eventName='" + eventName + '\'' +
+                ", eventOffset='" + eventOffset + '\'' +
+                ", eventParameters=" + eventParameters +
+                ", userId='" + userId + '\'' +
+                ", gender='" + gender + '\'' +
+                ", birthYear='" + birthYear + '\'' +
+                ", latitude='" + latitude + '\'' +
+                ", longitude='" + longitude + '\'' +
+                ", sessionProperties=" + sessionProperties +
+                '}';
     }
 }

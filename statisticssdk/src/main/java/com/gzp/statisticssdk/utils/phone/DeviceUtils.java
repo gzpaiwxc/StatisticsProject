@@ -1,4 +1,4 @@
-package com.gzp.statisticssdk.utils;
+package com.gzp.statisticssdk.utils.phone;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -10,6 +10,8 @@ import android.os.PowerManager;
 import android.provider.Settings;
 import android.support.annotation.RequiresPermission;
 import android.text.TextUtils;
+
+import com.gzp.statisticssdk.utils.Utils;
 
 import java.io.File;
 import java.net.InetAddress;

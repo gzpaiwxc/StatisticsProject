@@ -10,6 +10,17 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".MainActivity">
+        <Button
+            android:id="@+id/btn_to_rsa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="跳转到RSA"/>
+
+        <Button
+            android:id="@+id/btn_test"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="测试"/>
 
         <EditText
             android:id="@+id/et_account"
@@ -27,7 +38,6 @@
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="onLogin"
             android:text="登录玩安卓"/>
 
         <EditText
@@ -37,10 +47,9 @@
             android:hint="输入id"/>
 
         <Button
-            android:id="@+id/btn_get_ip"
+            android:id="@+id/btn_get_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="getIpContent"
             android:text="获取内容"/>
 
         <TextView

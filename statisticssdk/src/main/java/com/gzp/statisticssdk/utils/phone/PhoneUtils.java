@@ -1,4 +1,4 @@
-package com.gzp.statisticssdk.utils;
+package com.gzp.statisticssdk.utils.phone;
 
 import android.annotation.SuppressLint;
 import android.app.PendingIntent;
@@ -8,6 +8,8 @@ import android.os.Build;
 import android.support.annotation.RequiresPermission;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
+
+import com.gzp.statisticssdk.utils.Utils;
 
 import java.util.List;
 

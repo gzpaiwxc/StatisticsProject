@@ -1,14 +1,18 @@
 package com.gzp.aspectproject;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gzp.statisticssdk.sdk.StatisticsSDK;
 import com.gzp.statisticssdk.utils.net.HttpUtils;
 import com.gzp.statisticssdk.utils.net.ICommCallBack;
 
@@ -16,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private EditText etAccount;
     private EditText etPassword;
@@ -30,13 +34,26 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mContext = this;
+        initView();
+    }
+
+    private void initView() {
         etAccount = findViewById(R.id.et_account);
         etPassword = findViewById(R.id.et_password);
         etIp = findViewById(R.id.et_ip);
         tvMsg = findViewById(R.id.tv_msg);
+        Button btnToRSA = findViewById(R.id.btn_to_rsa);
+        Button btnTest = findViewById(R.id.btn_test);
+        Button btnLogin = findViewById(R.id.btn_login);
+        Button btnGetContent = findViewById(R.id.btn_get_content);
+        btnToRSA.setOnClickListener(this);
+        btnTest.setOnClickListener(this);
+        btnLogin.setOnClickListener(this);
+        btnGetContent.setOnClickListener(this);
     }
 
-    public void onLogin(View view) {
+
+    private void onLogin() {
         Map<String, Object> params = new HashMap<>();
         String account = etAccount.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
@@ -60,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void getIpContent(View view) {
+    private void getContent() {
         //113.116.61.15
 //        http://tj.nineton.cn/Heart/index/all?city=CHSH000000&language=zh-chs&unit=c&aqi=city&alarm=1&key=78928e706123c1a8f1766f062bc8676b
         Map<String, Object> params = new TreeMap<>();
@@ -88,5 +105,52 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(mContext, e.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+
+    private void onIntentToActivity() {
+        Intent intent = new Intent(MainActivity.this, RSATestActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        StatisticsSDK.startSession(this);
+//        StatisticsSDK.logEvent("app启动");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        StatisticsSDK.endSession(this);
+    }
+
+    private void test() {
+        Map<String, Object> params = new HashMap<>();
+        long timel = SystemClock.elapsedRealtime();
+        params.put("name", "hello");
+        params.put("time", String.valueOf(timel));
+        params.put("hello", "hello world");
+        StatisticsSDK.logEvent("点击测试按钮", params);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_to_rsa:
+                onIntentToActivity();
+                break;
+            case R.id.btn_test:
+                test();
+                break;
+            case R.id.btn_login:
+                onLogin();
+                break;
+            case R.id.btn_get_content:
+                getContent();
+                break;
+
+        }
     }
 }
