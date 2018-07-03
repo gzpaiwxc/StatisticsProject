@@ -80,13 +80,22 @@ public class HttpUtils {
     }
 
 
-
+    /**
+     * 执行POST请求
+     * @param callBack
+     * @return
+     */
     public HttpUtils doPostExecute(ICommCallBack callBack) {
         ProvideHttpRequest httpRequest = new ProvideHttpRequest(new PostRequest(httpBody, callBack));
         httpRequest.startRequest();
         return this;
     }
 
+    /**
+     * 执行GET请求
+     * @param callBack
+     * @return
+     */
     public HttpUtils doGetExecute(ICommCallBack callBack) {
         ProvideHttpRequest httpRequest = new ProvideHttpRequest(new GetRequest(httpBody, callBack));
         httpRequest.startRequest();

@@ -6,7 +6,7 @@ package com.gzp.statisticssdk.utils.net;
  * Description:
  */
 public class ProvideHttpRequest {
-    HttpRequest mHttpRequest;
+    private HttpRequest mHttpRequest;
 
     public ProvideHttpRequest(HttpRequest httpRequest) {
         this.mHttpRequest = httpRequest;
