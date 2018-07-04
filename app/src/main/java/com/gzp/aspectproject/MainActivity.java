@@ -13,9 +13,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gzp.statisticssdk.sdk.StatisticsSDK;
+import com.gzp.statisticssdk.utils.FileIOUtils;
+import com.gzp.statisticssdk.utils.FileUtils;
 import com.gzp.statisticssdk.utils.net.HttpUtils;
 import com.gzp.statisticssdk.utils.net.ICommCallBack;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -127,12 +131,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void test() {
-        Map<String, Object> params = new HashMap<>();
-        long timel = SystemClock.elapsedRealtime();
-        params.put("name", "hello");
-        params.put("time", String.valueOf(timel));
-        params.put("hello", "hello world");
-        StatisticsSDK.logEvent("点击测试按钮", params);
+//        Map<String, Object> params = new HashMap<>();
+//        long timel = SystemClock.elapsedRealtime();
+//        params.put("name", "hello");
+//        params.put("time", String.valueOf(timel));
+//        params.put("hello", "hello world");
+//        StatisticsSDK.logEvent("点击测试按钮", params);
+
+        FileUtils.createSDCardResouseDir(this);
+        File fileDir = FileUtils.getFileDir(this);
+        String filePath = FileUtils.FILE_PATH + "/test.txt";
+        String filePath2 = FileUtils.FILE_PATH2;
+        String filePath3 = FileUtils.FILE_PATH3;
+        Log.e(TAG, "filePath==>" + filePath);
+        Log.e(TAG, "filePath2==>" + filePath2);
+        Log.e(TAG, "filePath3==>" + filePath3);
+
+        String content = "hello world!";
+//        FileIOUtils.writeFileFromString(filePath, content);
+        FileIOUtils.writeFileFromBytesByStream(filePath, content.getBytes());
+
     }
 
     @Override
