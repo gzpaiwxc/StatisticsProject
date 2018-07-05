@@ -2,7 +2,6 @@ package com.gzp.aspectproject;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,14 +11,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gzp.aspectproject.utils.LogUtil;
 import com.gzp.statisticssdk.sdk.StatisticsSDK;
 import com.gzp.statisticssdk.utils.FileIOUtils;
 import com.gzp.statisticssdk.utils.FileUtils;
 import com.gzp.statisticssdk.utils.net.HttpUtils;
 import com.gzp.statisticssdk.utils.net.ICommCallBack;
+import com.gzp.statisticssdk.utils.permission.PermissionHelper;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -50,10 +50,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btnTest = findViewById(R.id.btn_test);
         Button btnLogin = findViewById(R.id.btn_login);
         Button btnGetContent = findViewById(R.id.btn_get_content);
+        Button btnTestPermission = findViewById(R.id.btn_test_permission);
         btnToRSA.setOnClickListener(this);
         btnTest.setOnClickListener(this);
         btnLogin.setOnClickListener(this);
         btnGetContent.setOnClickListener(this);
+        btnTestPermission.setOnClickListener(this);
+
     }
 
 
@@ -138,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        params.put("hello", "hello world");
 //        StatisticsSDK.logEvent("点击测试按钮", params);
 
-        FileUtils.createSDCardResouseDir(this);
+        String sdCardResourceDir = FileUtils.createSDCardResourceDir(this);
         File fileDir = FileUtils.getFileDir(this);
         String filePath = FileUtils.FILE_PATH + "/test.txt";
         String filePath2 = FileUtils.FILE_PATH2;
@@ -149,8 +152,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         String content = "hello world!";
 //        FileIOUtils.writeFileFromString(filePath, content);
-        FileIOUtils.writeFileFromBytesByStream(filePath, content.getBytes());
+//        FileIOUtils.writeFileFromBytesByStream(sdCardResourceDir + "/test.txt", content.getBytes(),true);
+//        byte[] bytes = FileIOUtils.readFile2BytesByStream(sdCardResourceDir + "/test.txt");
+//        LogUtil.e("===file===>"+new String(bytes)+"    ===byte===>"+bytes.length);
+        boolean b = FileIOUtils.writeFileFromBytesByStream(filePath, content.getBytes(), true);
+        LogUtil.e("是否创建成功==》" + b);
+        byte[] bytes = FileIOUtils.readFile2BytesByStream(filePath);
+        LogUtil.e("===file===>"+new String(bytes)+"    ===byte===>"+bytes.length);
 
+
+//        boolean b = FileIOUtils.writeFileFromBytesByStream(filePath, content.getBytes());
+//        LogUtil.e("是否写入成功===》" + b);
+//        byte[] bytes1 = FileIOUtils.readFile2BytesByStream(filePath);
+//        LogUtil.e("===根目录下的test===>"+new String(bytes1));
+    }
+
+    private void testPermission() {
+        PermissionHelper.requestPhone(new PermissionHelper.OnPermissionGrantedListener() {
+            @Override
+            public void onPermissionGranted() {
+                LogUtil.e("权限申请成功");
+            }
+        });
     }
 
     @Override
@@ -168,7 +191,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_get_content:
                 getContent();
                 break;
-
+            case R.id.btn_test_permission:
+                testPermission();
+                break;
         }
     }
 }

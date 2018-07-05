@@ -20,10 +20,11 @@ import java.util.zip.GZIPOutputStream;
  */
 public class FileUtils {
 
-       private final static String RESOURCE = "/test";
+    private final static String RESOURCE = "/filePath";
     public final static String FILE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + RESOURCE;
     public final static String FILE_PATH2 = Environment.getDataDirectory().getAbsolutePath() + RESOURCE;
     public final static String FILE_PATH3 = Environment.getExternalStorageState() + RESOURCE;
+//    private final static String SD_PATH = createSDCardResourceDir();
 
     public static File getFileDir(Context context) {
         return privateFilePath(context);
@@ -32,6 +33,16 @@ public class FileUtils {
     private static File privateFilePath(Context context) {
         File externalFilesDir = context.getExternalFilesDir(RESOURCE);
         return externalFilesDir == null ? new File(Environment.getExternalStorageDirectory().getAbsolutePath(), RESOURCE) : externalFilesDir;
+    }
+
+    /**
+     * 创建一个文件
+     * @param filePath
+     * @return
+     */
+    public static boolean createFile(String filePath) {
+
+        return false;
     }
 
 
@@ -74,11 +85,12 @@ public class FileUtils {
      * @param context
      * @return
      */
-    public static String createSDCardResouseDir(Context context) {
+    public static String createSDCardResourceDir(Context context) {
         String SDPath;
         if (Environment.MEDIA_MOUNTED.equals(Environment
                 .getExternalStorageState())) {
-            File sdcardDir = privateFilePath(context);
+//            File sdcardDir = privateFilePath(context);
+            File sdcardDir = new File(FILE_PATH);
             SDPath = sdcardDir.getPath();
             File path1 = new File(SDPath);
             if (!path1.exists()) {

@@ -21,6 +21,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="测试"/>
+        <Button
+            android:id="@+id/btn_test_permission"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="测试权限"/>
 
         <EditText
             android:id="@+id/et_account"

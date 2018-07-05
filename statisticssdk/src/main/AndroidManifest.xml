@@ -2,4 +2,13 @@
           package="com.gzp.statisticssdk">
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
+    <application>
+        <activity
+            android:name=".utils.permission.PermissionUtils$PermissionActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:multiprocess="true"
+            android:theme="@style/ActivityTranslucent"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+    </application>
 </manifest>

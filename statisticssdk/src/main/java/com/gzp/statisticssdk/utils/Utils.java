@@ -98,7 +98,7 @@ public final class Utils {
         throw new NullPointerException("u should init first");
     }
 
-    static ActivityLifecycleImpl getActivityLifecycle() {
+    public static ActivityLifecycleImpl getActivityLifecycle() {
         return ACTIVITY_LIFECYCLE;
     }
 
@@ -129,9 +129,9 @@ public final class Utils {
         return false;
     }
 
-    static class ActivityLifecycleImpl implements ActivityLifecycleCallbacks {
+    public static class ActivityLifecycleImpl implements ActivityLifecycleCallbacks {
 
-        final LinkedList<Activity>                        mActivityList      = new LinkedList<>();
+        final LinkedList<Activity> mActivityList = new LinkedList<>();
         final HashMap<Object, OnAppStatusChangedListener> mStatusListenerMap = new HashMap<>();
 
         private int mForegroundCount = 0;
@@ -219,7 +219,7 @@ public final class Utils {
             }
         }
 
-        Activity getTopActivity() {
+        public Activity getTopActivity() {
             if (!mActivityList.isEmpty()) {
                 final Activity topActivity = mActivityList.getLast();
                 if (topActivity != null) {

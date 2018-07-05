@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.gzp.statisticssdk.JsonValue;
 import com.gzp.statisticssdk.bean.AppRawData;
+import com.gzp.statisticssdk.utils.permission.PermissionHelper;
 import com.gzp.statisticssdk.utils.phone.DeviceUtils;
 import com.gzp.statisticssdk.utils.Utils;
 import com.gzp.statisticssdk.utils.net.HttpUtils;
@@ -54,8 +55,6 @@ public class StatisticsSDK {
      */
     private static String deviceModel;
 
-    private static String brand;
-
     /**
      * 国家码
      */
@@ -86,17 +85,22 @@ public class StatisticsSDK {
     @SuppressLint("MissingPermission")
     public static void init(Context context) {
         Utils.init(context);
+        PermissionHelper.requestPhone(new PermissionHelper.OnPermissionGrantedListener() {
+            @Override
+            public void onPermissionGranted() {
+                IMEI = PhoneUtils.getIMEI();
+            }
+        });
         countryISO = getCountry(context);
         androidId = DeviceUtils.getAndroidID();
         deviceManufacturer = DeviceUtils.getManufacturer();
         deviceModel = DeviceUtils.getModel();
-        brand = DeviceUtils.getBrand();
         operator = PhoneUtils.getSimOperatorName();
         //应用启动时的时间戳
         launchTime = currentTime();
         appRawData = new AppRawData();
         Log.e(TAG, "androidId==>" + androidId + "  deviceManufacturer==>" + deviceManufacturer +
-                "  deviceModel==>" + deviceModel + "  brand==>" + brand + "  country==>" + countryISO + "   operator==>" + operator);
+                "  deviceModel==>" + deviceModel + "  country==>" + countryISO + "   operator==>" + operator + "  IMEI==>" + IMEI);
         Log.e(TAG, "USER==》" + Build.USER + "  BOOTLOADER==》" + Build.BOOTLOADER);
     }
 
