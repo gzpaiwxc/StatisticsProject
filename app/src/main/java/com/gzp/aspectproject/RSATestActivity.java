@@ -7,10 +7,10 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.gzp.aspectproject.utils.LogUtil;
-import com.gzp.statisticssdk.utils.rsa.Base64Utils;
-import com.gzp.statisticssdk.utils.rsa.RSACipherStrategy;
-import com.gzp.statisticssdk.utils.rsa.RSAConstant;
-import com.gzp.statisticssdk.utils.rsa.RSAUtils;
+import com.gzp.statisticssdk.utils.security.Base64Utils;
+import com.gzp.statisticssdk.utils.security.RSACipherStrategy;
+import com.gzp.statisticssdk.utils.security.RSAConstant;
+import com.gzp.statisticssdk.utils.security.RSAUtils;
 
 import java.security.KeyPair;
 import java.security.interfaces.RSAPrivateKey;

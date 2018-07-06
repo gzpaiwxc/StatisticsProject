@@ -1,4 +1,4 @@
-package com.gzp.statisticssdk.utils;
+package com.gzp.statisticssdk.utils.file;
 
 import android.content.Context;
 import android.os.Environment;

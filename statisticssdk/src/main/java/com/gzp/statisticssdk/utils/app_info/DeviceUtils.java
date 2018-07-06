@@ -1,26 +1,15 @@
-package com.gzp.statisticssdk.utils.phone;
+package com.gzp.statisticssdk.utils.app_info;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Build;
-import android.os.PowerManager;
 import android.provider.Settings;
-import android.support.annotation.RequiresPermission;
 import android.text.TextUtils;
 
 import com.gzp.statisticssdk.utils.Utils;
 
 import java.io.File;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.util.Enumeration;
-
-import static android.Manifest.permission.ACCESS_WIFI_STATE;
-import static android.Manifest.permission.INTERNET;
+import java.util.Locale;
 
 /**
  *     desc  : utils about device
@@ -145,6 +134,17 @@ public final class DeviceUtils {
             }
             return new String[]{Build.CPU_ABI};
         }
+    }
+
+
+    /**
+     * 获取国家码
+     * @param context
+     * @return
+     */
+    public static String getCountry(Context context) {
+        Locale locale = context.getResources().getConfiguration().locale;
+        return locale.getCountry();
     }
 
 }

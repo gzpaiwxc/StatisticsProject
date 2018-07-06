@@ -5,9 +5,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.gzp.statisticssdk.utils.rsa.RSACipherStrategy;
-import com.gzp.statisticssdk.utils.rsa.RSAConstant;
-import com.gzp.statisticssdk.utils.rsa.RSAUtils;
+import com.gzp.statisticssdk.utils.security.RSACipherStrategy;
+import com.gzp.statisticssdk.utils.security.RSAConstant;
 
 import org.json.JSONObject;
 
@@ -62,7 +61,7 @@ public abstract class HttpRequest {
             String data = URLEncoder.encode(jsonObject.toString(), "UTF-8");
             RSACipherStrategy.getInstance().initPublicKey(RSAConstant.RSA_PUBLISH_KEY);
             encryptData = RSACipherStrategy.getInstance().encrypt(data);
-            Log.e("Statistics", "上传的数据加密前===>" + data);
+            Log.e("Statistics", "上传的数据加密前===>" + jsonObject.toString());
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (Exception e) {

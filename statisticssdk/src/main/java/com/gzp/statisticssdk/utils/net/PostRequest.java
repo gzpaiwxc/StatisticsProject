@@ -6,13 +6,14 @@ import android.util.Log;
 
 import com.gzp.statisticssdk.JsonValue;
 import com.gzp.statisticssdk.utils.CustomThreadPool;
-import com.gzp.statisticssdk.utils.MD5Util;
-import com.gzp.statisticssdk.utils.rsa.RSACipherStrategy;
-import com.gzp.statisticssdk.utils.rsa.RSAConstant;
+import com.gzp.statisticssdk.utils.security.MD5Util;
+import com.gzp.statisticssdk.utils.security.RSACipherStrategy;
+import com.gzp.statisticssdk.utils.security.RSAConstant;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,7 +51,7 @@ public class PostRequest extends HttpRequest{
                             conn.setDoInput(true);
                             conn.setDoOutput(true);
 //                            conn.setRequestProperty("Content-Type", "text/plain");
-                            conn.setRequestProperty("Content-Type", "application/json");
+                            conn.setRequestProperty("Content-Type", "octet-stream");
                             conn.setRequestProperty("Charset", "UTF-8");
                             conn.setRequestMethod("POST");
                             DataOutputStream outputStream = new DataOutputStream(conn.getOutputStream());
@@ -84,7 +85,7 @@ public class PostRequest extends HttpRequest{
                                 }
 
                                 Message msg = mHandler.obtainMessage();
-                                msg.obj = sb.toString();
+                                msg.obj = decryptData;
                                 msg.what = Constant.WHAT_REQ_SUCCESS;
                                 mHandler.sendMessage(msg);
                             } else {

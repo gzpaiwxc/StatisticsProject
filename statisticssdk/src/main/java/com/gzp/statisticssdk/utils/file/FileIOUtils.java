@@ -1,4 +1,7 @@
-package com.gzp.statisticssdk.utils;
+package com.gzp.statisticssdk.utils.file;
+
+import android.content.Context;
+import android.os.Environment;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -32,9 +35,21 @@ import java.util.List;
 public final class FileIOUtils {
 
     private static int sBufferSize = 8192;
+    private static final String RESOURCE = "/statistics";
 
     private FileIOUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
+    }
+
+
+    public static String getFileDir(Context context) {
+        String path = privateFilePath(context).getPath();
+        return path;
+    }
+
+    private static File privateFilePath(Context context) {
+        File externalFilesDir = context.getExternalFilesDir(RESOURCE);
+        return externalFilesDir == null ? new File(Environment.getExternalStorageDirectory().getAbsolutePath(), RESOURCE) : externalFilesDir;
     }
 
     /**
@@ -775,4 +790,26 @@ public final class FileIOUtils {
             }
         }
     }
+
+    /**
+     * Delete the file.
+     *
+     * @param srcFilePath The path of source file.
+     * @return {@code true}: success<br>{@code false}: fail
+     */
+    public static boolean deleteFile(final String srcFilePath) {
+        return deleteFile(getFileByPath(srcFilePath));
+    }
+
+    /**
+     * Delete the file.
+     *
+     * @param file The file.
+     * @return {@code true}: success<br>{@code false}: fail
+     */
+    public static boolean deleteFile(final File file) {
+        return file != null && (!file.exists() || file.isFile() && file.delete());
+    }
+
+
 }

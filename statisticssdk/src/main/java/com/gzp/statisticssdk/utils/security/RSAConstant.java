@@ -1,4 +1,4 @@
-package com.gzp.statisticssdk.utils.rsa;
+package com.gzp.statisticssdk.utils.security;
 
 /**
  * author: Gzp

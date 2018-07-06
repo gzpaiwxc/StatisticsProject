@@ -1,4 +1,4 @@
-package com.gzp.statisticssdk.utils;
+package com.gzp.statisticssdk.utils.security;
 
 
 import  java.io.File;

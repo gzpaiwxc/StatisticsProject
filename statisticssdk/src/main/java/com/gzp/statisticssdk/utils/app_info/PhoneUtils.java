@@ -1,21 +1,14 @@
-package com.gzp.statisticssdk.utils.phone;
+package com.gzp.statisticssdk.utils.app_info;
 
 import android.annotation.SuppressLint;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresPermission;
-import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 
 import com.gzp.statisticssdk.utils.Utils;
 
-import java.util.List;
-
-import static android.Manifest.permission.CALL_PHONE;
 import static android.Manifest.permission.READ_PHONE_STATE;
-import static android.Manifest.permission.SEND_SMS;
 
 /**
  * <pre>
@@ -46,7 +39,7 @@ public final class PhoneUtils {
      *
      * @return the unique device id
      */
-    @SuppressLint("HardwareIds")
+    @SuppressLint({"HardwareIds", "MissingPermission"})
     @RequiresPermission(READ_PHONE_STATE)
     public static String getDeviceId() {
         TelephonyManager tm =
@@ -61,7 +54,7 @@ public final class PhoneUtils {
      *
      * @return the IMEI
      */
-    @SuppressLint("HardwareIds")
+    @SuppressLint({"HardwareIds", "MissingPermission"})
     @RequiresPermission(READ_PHONE_STATE)
     public static String getIMEI() {
         TelephonyManager tm =
@@ -79,7 +72,7 @@ public final class PhoneUtils {
      *
      * @return the MEID
      */
-    @SuppressLint("HardwareIds")
+    @SuppressLint({"HardwareIds", "MissingPermission"})
     @RequiresPermission(READ_PHONE_STATE)
     public static String getMEID() {
         TelephonyManager tm =
@@ -98,7 +91,7 @@ public final class PhoneUtils {
      *
      * @return the IMSI
      */
-    @SuppressLint("HardwareIds")
+    @SuppressLint({"HardwareIds", "MissingPermission"})
     @RequiresPermission(READ_PHONE_STATE)
     public static String getIMSI() {
         TelephonyManager tm =
@@ -190,7 +183,7 @@ public final class PhoneUtils {
      * SubscriberId(IMSI) = 460030419724900<br>
      * VoiceMailNumber = *86<br>
      */
-    @SuppressLint("HardwareIds")
+    @SuppressLint({"HardwareIds", "MissingPermission"})
     @RequiresPermission(READ_PHONE_STATE)
     public static String getPhoneStatus() {
         TelephonyManager tm =

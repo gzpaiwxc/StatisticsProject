@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.gzp.statisticssdk.utils.rsa;
+package com.gzp.statisticssdk.utils.security;
 
 import java.io.InputStream;
 import java.security.interfaces.RSAPrivateKey;

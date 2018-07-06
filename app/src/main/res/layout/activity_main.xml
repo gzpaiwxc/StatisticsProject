@@ -22,10 +22,26 @@
             android:layout_height="wrap_content"
             android:text="测试"/>
         <Button
+            android:id="@+id/btn_test_read"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="测试读取文件"/>
+        <Button
+            android:id="@+id/btn_test_deleted"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="测试文件删除"/>
+        <Button
             android:id="@+id/btn_test_permission"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="测试权限"/>
+        <Button
+            android:id="@+id/btn_test_file"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="测试文件存储"/>
+
 
         <EditText
             android:id="@+id/et_account"

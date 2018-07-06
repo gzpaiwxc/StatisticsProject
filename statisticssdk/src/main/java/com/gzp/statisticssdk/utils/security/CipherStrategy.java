@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.gzp.statisticssdk.utils.rsa;
+package com.gzp.statisticssdk.utils.security;
 
 /**
  * 加解密处理的抽象接口

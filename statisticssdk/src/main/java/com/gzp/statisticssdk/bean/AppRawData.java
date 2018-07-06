@@ -1,5 +1,6 @@
 package com.gzp.statisticssdk.bean;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -7,7 +8,7 @@ import java.util.Map;
  * Create on 2018/6/22
  * Description:
  */
-public class AppRawData {
+public class AppRawData implements Serializable{
 
     /**
      * sessionTimestamp : 1527835750385
@@ -33,19 +34,19 @@ public class AppRawData {
     private String appVersion;
     private String sessionDuration;
     private String carrier;
-    private DeviceIdentifiersEntity deviceIdentifiers;
+    private String deviceIdentifiers;
     private String deviceModel;
     private String deviceSubModel;
     private String countryISO;
     private String eventName;
     private String eventOffset;
-    private Map<String, Object> eventParameters;
+    private Object eventParameters;
     private String userId;
     private String gender;
     private String birthYear;
     private String latitude;
     private String longitude;
-    private SessionPropertiesEntity sessionProperties;
+    private String sessionProperties;
 
     public String getSessionTimestamp() {
         return sessionTimestamp;
@@ -79,11 +80,11 @@ public class AppRawData {
         this.carrier = carrier;
     }
 
-    public DeviceIdentifiersEntity getDeviceIdentifiers() {
+    public String getDeviceIdentifiers() {
         return deviceIdentifiers;
     }
 
-    public void setDeviceIdentifiers(DeviceIdentifiersEntity deviceIdentifiers) {
+    public void setDeviceIdentifiers(String deviceIdentifiers) {
         this.deviceIdentifiers = deviceIdentifiers;
     }
 
@@ -127,11 +128,11 @@ public class AppRawData {
         this.eventOffset = eventOffset;
     }
 
-    public Map<String, Object> getEventParameters() {
+    public Object getEventParameters() {
         return eventParameters;
     }
 
-    public void setEventParameters(Map<String,Object> eventParameters) {
+    public void setEventParameters(Object eventParameters) {
         this.eventParameters = eventParameters;
     }
 
@@ -175,65 +176,12 @@ public class AppRawData {
         this.longitude = longitude;
     }
 
-    public SessionPropertiesEntity getSessionProperties() {
+    public String getSessionProperties() {
         return sessionProperties;
     }
 
-    public void setSessionProperties(SessionPropertiesEntity sessionProperties) {
+    public void setSessionProperties(String sessionProperties) {
         this.sessionProperties = sessionProperties;
-    }
-
-    public static class DeviceIdentifiersEntity {
-        /**
-         * AndroidId : e9036692ddc3f909
-         */
-
-        private String AndroidId;
-
-        public String getAndroidId() {
-            return AndroidId;
-        }
-
-        public void setAndroidId(String AndroidId) {
-            this.AndroidId = AndroidId;
-        }
-
-        @Override
-        public String toString() {
-            return "DeviceIdentifiersEntity{" +
-                    "AndroidId='" + AndroidId + '\'' +
-                    '}';
-        }
-    }
-
-    public static class EventParametersEntity {
-        /**
-         * name : 我叫王治明
-         * time : 2018年06月01日 14:49:18
-         */
-
-        private String name;
-        private String time;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getTime() {
-            return time;
-        }
-
-        public void setTime(String time) {
-            this.time = time;
-        }
-    }
-
-    public static class SessionPropertiesEntity {
-
     }
 
     @Override
@@ -243,7 +191,7 @@ public class AppRawData {
                 ", appVersion='" + appVersion + '\'' +
                 ", sessionDuration='" + sessionDuration + '\'' +
                 ", carrier='" + carrier + '\'' +
-                ", deviceIdentifiers=" + deviceIdentifiers +
+                ", deviceIdentifiers='" + deviceIdentifiers + '\'' +
                 ", deviceModel='" + deviceModel + '\'' +
                 ", deviceSubModel='" + deviceSubModel + '\'' +
                 ", countryISO='" + countryISO + '\'' +
@@ -255,7 +203,7 @@ public class AppRawData {
                 ", birthYear='" + birthYear + '\'' +
                 ", latitude='" + latitude + '\'' +
                 ", longitude='" + longitude + '\'' +
-                ", sessionProperties=" + sessionProperties +
+                ", sessionProperties='" + sessionProperties + '\'' +
                 '}';
     }
 }
