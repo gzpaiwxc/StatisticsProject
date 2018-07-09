@@ -34,7 +34,7 @@ public class AppRawData implements Serializable{
     private String appVersion;
     private String sessionDuration;
     private String carrier;
-    private String deviceIdentifiers;
+    private Map<String, Object> deviceIdentifiers;
     private String deviceModel;
     private String deviceSubModel;
     private String countryISO;
@@ -80,11 +80,11 @@ public class AppRawData implements Serializable{
         this.carrier = carrier;
     }
 
-    public String getDeviceIdentifiers() {
+    public Map<String,Object> getDeviceIdentifiers() {
         return deviceIdentifiers;
     }
 
-    public void setDeviceIdentifiers(String deviceIdentifiers) {
+    public void setDeviceIdentifiers(Map<String,Object> deviceIdentifiers) {
         this.deviceIdentifiers = deviceIdentifiers;
     }
 

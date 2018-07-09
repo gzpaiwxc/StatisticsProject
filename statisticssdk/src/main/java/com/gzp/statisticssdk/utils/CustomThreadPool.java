@@ -6,8 +6,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 /**
- * author:  by hannibal on 2017/3/31.
- * mail: cjd_hannibal@163.com
+ * 自定义线程池
  */
 
 public class CustomThreadPool {

@@ -21,6 +21,9 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
 
+/**
+ * RSA加解密
+ */
 public class RSACipherStrategy extends CipherStrategy {
 
 	private RSAPublicKey mPublicKey;

@@ -33,8 +33,8 @@ public class StatisticsSDK {
 
     final static String TAG = "Statistics";
 
-    private static final String SESSION_URL = "http://192.168.1.49:8088/sdk/data/session";
-    private static final String EVENT_URL = " http://192.168.1.49:8088/sdk/data/event";
+    private static final String SESSION_URL = "http://192.168.1.54:8088/sdk/data/session";
+    private static final String EVENT_URL = " http://192.168.1.54:8088/sdk/data/event";
 
     private static String filePath = "";
 
@@ -138,18 +138,20 @@ public class StatisticsSDK {
 
     /**
      * 开始会话
+     *
      * @param context
      */
     public static void startSession(Context context) {
-        if (context==null) throw new NullPointerException("");
+        if (context == null) throw new NullPointerException("");
         sessionTimeStamp = currentTime();
         getAppData("", new HashMap<String, Object>());
         Map<String, Object> map = getDataMap("");
-        sendDataToService(SESSION_URL,map);
+        sendDataToService(SESSION_URL, map, "");
     }
 
     /**
      * 结束会话
+     *
      * @param context
      */
     public static void endSession(Context context) {
@@ -172,25 +174,15 @@ public class StatisticsSDK {
         getAppData(eventId, map);
         dataToJson();
         Map<String, Object> dataMap = getDataMap(eventId);
-//        JSONObject jsonObject = new JSONObject(dataMap);
-        Log.e(TAG, "==写入文件的数据dataMap==>" + dataMap.toString());
-        writeDataToFile(filePath, dataMap);
+        JSONObject jsonObject = new JSONObject(dataMap);
+        Log.e(TAG, "==写入文件的数据dataMap==>" + jsonObject.toString());
+        writeDataToFile(filePath, jsonObject.toString());
 
-//        Map<String, Object> params = getDataMap(eventId);
-//        HttpUtils.getInstance()
-//                .url("http://192.168.1.52:8088/sdk/data/info")
-//                .addParams(params)
-//                .doPostExecute(new ICommCallBack() {
-//                    @Override
-//                    public void onSuccess(Object tData) {
-//                        Log.e(TAG, "===data===" + tData.toString());
-//                    }
-//
-//                    @Override
-//                    public void onFailed(Throwable e) {
-//                        Log.e(TAG, "===throwable==" + e.toString());
-//                    }
-//                });
+    }
+
+    public static void postFileDataToService() {
+        String readFileData = readDataFromFile(filePath);
+        sendDataToService(EVENT_URL, null, readFileData);
     }
 
     public static void readFile() {
@@ -207,10 +199,11 @@ public class StatisticsSDK {
     /**
      * 发送数据到服务端
      */
-    private static void sendDataToService(String url, Map<String, Object> map) {
+    private static void sendDataToService(String url, Map<String, Object> map, String postData) {
         HttpUtils.getInstance()
                 .url(url)
-                .addParams(map)
+                .addParams(map == null ? new HashMap<String, Object>() : map)
+                .setPostData(postData)
                 .doPostExecute(new ICommCallBack() {
                     @Override
                     public void onSuccess(Object tData) {
@@ -222,6 +215,7 @@ public class StatisticsSDK {
                         Log.e(TAG, "==error==>" + e.toString());
                     }
                 });
+
     }
 
 
@@ -242,14 +236,41 @@ public class StatisticsSDK {
         params.put(JsonValue.GENDER, appRawData.getGender());
         params.put(JsonValue.LATITUDE, appRawData.getLatitude());
         params.put(JsonValue.LONGITUDE, appRawData.getLongitude());
-        params.put(JsonValue.SESSION_DURATION, appRawData.getSessionTimestamp());
-        params.put(JsonValue.SESSION_PROPERTIES, appRawData.getSessionProperties());
+        params.put(JsonValue.SESSION_DURATION, appRawData.getSessionDuration());
         params.put(JsonValue.USER_ID, appRawData.getUserId());
 
         Log.e(TAG, "params==>" + params.toString());
         return params;
     }
 
+    /**
+     * 得到 app 数据对象
+     *
+     * @param eventId
+     * @param map
+     */
+    private static void getAppData(String eventId, Map<String, Object> map) {
+        appRawData.setCountryISO(countryISO);//国家码
+        appRawData.setDeviceModel(deviceManufacturer);//设备厂商
+        appRawData.setDeviceSubModel(deviceModel);//设备型号
+        appRawData.setEventName(eventId);//事件名
+        appRawData.setEventParameters(map);//事件集
+        appRawData.setSessionTimestamp(serviceSessionTimeStamp == 0 ? String.valueOf(launchTime) : String.valueOf(serviceSessionTimeStamp));//session时间戳
+        Map<String, Object> deviceIdentifiers = new HashMap<>();
+        deviceIdentifiers.put(JsonValue.ANDROID_ID, androidId);
+        appRawData.setDeviceIdentifiers(deviceIdentifiers);//androidId
+        appRawData.setEventOffset(sessionTimeStamp == 0 ? String.valueOf((currentTime() - launchTime)) : String.valueOf((currentTime() - sessionTimeStamp)));//事件偏移时间
+        appRawData.setBirthYear("");
+        appRawData.setAppVersion(appVersion);
+        appRawData.setCarrier(operator);
+        appRawData.setGender("");
+        appRawData.setLatitude("");
+        appRawData.setUserId("");
+        appRawData.setLongitude("");
+        Log.e(TAG, "currentTime==>" + currentTime() + "    launchTime==>" + launchTime + "   duration==>" + (currentTime() - launchTime));
+        appRawData.setSessionDuration(endTime != 0 ? String.valueOf((endTime - launchTime)) : String.valueOf((currentTime() - launchTime)));
+
+    }
 
     /**
      * 将对象转为json格式
@@ -270,7 +291,7 @@ public class StatisticsSDK {
 //            JSONObject jsonEventParams = new JSONObject((HashMap<String, Object>) appRawData.getEventParameters());
             JSONObject jsonEventParams = null;
             if (appRawData.getEventParameters().toString().equals("")) {
-                 jsonEventParams= new JSONObject();
+                jsonEventParams = new JSONObject();
             } else {
                 jsonEventParams = new JSONObject((HashMap<String, Object>) appRawData.getEventParameters());
             }
@@ -285,51 +306,17 @@ public class StatisticsSDK {
             e.printStackTrace();
         }
         Log.e(TAG, "appRawData===>" + appRawData.toString());
-        Log.e(TAG, "json===>"+json.toString());
-    }
-
-    /**
-     * 得到 app 数据对象
-     * @param eventId
-     * @param map
-     */
-    private static void getAppData(String eventId, Map<String, Object> map) {
-        appRawData.setCountryISO(countryISO);//国家码
-        appRawData.setDeviceModel(deviceManufacturer);//设备厂商
-        appRawData.setDeviceSubModel(deviceModel);//设备型号
-        appRawData.setEventName(eventId);//事件名
-        appRawData.setEventParameters(map == null || map.size() == 0 ? "" : map);//事件集
-        appRawData.setSessionTimestamp(serviceSessionTimeStamp == 0 ? String.valueOf(launchTime) : String.valueOf(serviceSessionTimeStamp));//session时间戳
-        appRawData.setDeviceIdentifiers(androidId);//androidId
-        appRawData.setEventOffset(sessionTimeStamp == 0 ? String.valueOf(currentTime() - launchTime) : String.valueOf(currentTime() - sessionTimeStamp));//事件偏移时间
-        appRawData.setBirthYear("");
-        appRawData.setAppVersion(appVersion);
-        appRawData.setCarrier(operator);
-        appRawData.setGender("");
-        appRawData.setLatitude("");
-        appRawData.setUserId("");
-        appRawData.setLongitude("");
-        appRawData.setSessionProperties("");
-        appRawData.setSessionDuration(endTime == 0 ? String.valueOf(endTime - launchTime) : String.valueOf(currentTime() - launchTime));
-
+        Log.e(TAG, "json===>" + json.toString());
     }
 
     /**
      * 将事件写入文件
+     *
      * @param path
      * @param data
      */
     private static void writeDataToFile(String path, Object data) {
-//        //将数据加密后写入文件
-//        String encrypt = null;
-//        RSACipherStrategy.getInstance().initPublicKey(RSAConstant.RSA_PUBLISH_KEY);
-//        try {
-//            encrypt = RSACipherStrategy.getInstance().encrypt(data.toString());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        FileIOUtils.writeFileFromBytesByStream(path, data.toString().getBytes(), true);
-        FileIOUtils.writeFileFromString(path, data.toString()+",", true);
+        FileIOUtils.writeFileFromString(path, data.toString() + ",", true);
     }
 
 
@@ -339,21 +326,13 @@ public class StatisticsSDK {
      * @param path
      */
     private static String readDataFromFile(String path) {
-//        byte[] bytes = FileIOUtils.readFile2BytesByStream(path);
-//        String fileData = new String(bytes);
-        String fileData = FileIOUtils.readFile2String(path);
-//        //将文件读出来后进行解密
-//        String decrypt = null;
-//        RSACipherStrategy.getInstance().initPrivateKey(RSAConstant.RSA_PRIVATE_KEY);
-//        try {
-//            decrypt = RSACipherStrategy.getInstance().decrypt(fileData);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-        Map<String, Object> map = new HashMap<>();
         return FileIOUtils.readFile2String(path);
     }
 
+    /**
+     * 根据路径删除文件
+     * @param filePath
+     */
     private static void deleteFile(String filePath) {
         boolean b = FileIOUtils.deleteFile(filePath);
         Log.e(TAG, "文件是否删除成功==>" + b);
@@ -362,10 +341,11 @@ public class StatisticsSDK {
 
     /**
      * 当前时间戳
+     *
      * @return
      */
     private static long currentTime() {
-        return System.currentTimeMillis() / 1000;
+        return System.currentTimeMillis();
     }
 
 }

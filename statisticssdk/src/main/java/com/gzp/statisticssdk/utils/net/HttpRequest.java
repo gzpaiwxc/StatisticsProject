@@ -55,13 +55,15 @@ public abstract class HttpRequest {
 
     protected String getPostParams() {
         Map<String, Object> params = httpBody.getParams();
+        String data = httpBody.getPostData();
         String encryptData = "";
         JSONObject jsonObject = new JSONObject(params);
+        String postData = data.length() == 0 ? jsonObject.toString() : data;
         try {
-            String data = URLEncoder.encode(jsonObject.toString(), "UTF-8");
+            String encryptSource = URLEncoder.encode(postData, "UTF-8");
             RSACipherStrategy.getInstance().initPublicKey(RSAConstant.RSA_PUBLISH_KEY);
-            encryptData = RSACipherStrategy.getInstance().encrypt(data);
-            Log.e("Statistics", "上传的数据加密前===>" + jsonObject.toString());
+            encryptData = RSACipherStrategy.getInstance().encrypt(encryptSource);
+            Log.e("Statistics", "上传的数据加密前===>" + postData);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (Exception e) {

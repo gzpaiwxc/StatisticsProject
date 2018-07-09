@@ -104,49 +104,6 @@ public final class RSAUtils {
         return cipher.doFinal(encryptedData);
     }
 
-//    /**
-//     * 用公钥对字符串进行分段加密
-//     */
-//    public static byte[] encryptByPublicKeyForSpilt(byte[] data, PublicKey publicKey) throws Exception {
-//        int dataLen = data.length;
-//        if (dataLen <= MAX_ENCRYPT_BLOCK) {
-//            return encryptData(data, publicKey);
-//        }
-//        List<Byte> allBytes = new ArrayList<Byte>(2048);
-//        int bufIndex = 0;
-//        int subDataLoop = 0;
-//        byte[] buf = new byte[MAX_ENCRYPT_BLOCK];
-//        for (int i = 0; i < dataLen; i++) {
-//            buf[bufIndex] = data[i];
-//            if (++bufIndex == MAX_ENCRYPT_BLOCK || i == dataLen - 1) {
-//                subDataLoop++;
-//                if (subDataLoop != 1) {
-//                    for (byte b : DEFAULT_SPLIT) {
-//                        allBytes.add(b);
-//                    }
-//                }
-//                byte[] encryptBytes = encryptData(buf, publicKey);
-//                for (byte b : encryptBytes) {
-//                    allBytes.add(b);
-//                }
-//                bufIndex = 0;
-//                if (i == dataLen - 1) {
-//                    buf = null;
-//                } else {
-//                    buf = new byte[Math.min(MAX_ENCRYPT_BLOCK, dataLen - i - 1)];
-//                }
-//            }
-//        }
-//        byte[] bytes = new byte[allBytes.size()];
-//        {
-//            int i = 0;
-//            for (Byte b : allBytes) {
-//                bytes[i++] = b.byteValue();
-//            }
-//        }
-//        return bytes;
-//    }
-
     /**
      * 用公钥对字符串进行分段加密
      */
@@ -234,70 +191,6 @@ public final class RSAUtils {
     }
 
 
-//    /**
-//     * 使用私钥分段解密
-//     */
-//    public static byte[] decryptByPrivateKeyForSpilt(byte[] encrypted, PrivateKey privateKey) throws Exception {
-//        int splitLen = DEFAULT_SPLIT.length;
-//        if (splitLen <= 0) {
-//            return decryptData(encrypted, privateKey);
-//        }
-//        int dataLen = encrypted.length;
-//        List<Byte> allBytes = new ArrayList<Byte>(1024);
-//        int latestStartIndex = 0;
-//        for (int i = 0; i < dataLen; i++) {
-//            byte bt = encrypted[i];
-//            boolean isMatchSplit = false;
-//            if (i == dataLen - 1) {
-//                // 到data的最后了
-//                byte[] part = new byte[dataLen - latestStartIndex];
-//                System.arraycopy(encrypted, latestStartIndex, part, 0, part.length);
-//                byte[] decryptPart = decryptData(part, privateKey);
-//                for (byte b : decryptPart) {
-//                    allBytes.add(b);
-//                }
-//                latestStartIndex = i + splitLen;
-//                i = latestStartIndex - 1;
-//            } else if (bt == DEFAULT_SPLIT[0]) {
-//                // 这个是以split[0]开头
-//                if (splitLen > 1) {
-//                    if (i + splitLen < dataLen) {
-//                        // 没有超出data的范围
-//                        for (int j = 1; j < splitLen; j++) {
-//                            if (DEFAULT_SPLIT[j] != encrypted[i + j]) {
-//                                break;
-//                            }
-//                            if (j == splitLen - 1) {
-//                                // 验证到split的最后一位，都没有break，则表明已经确认是split段
-//                                isMatchSplit = true;
-//                            }
-//                        }
-//                    }
-//                } else {
-//                    // split只有一位，则已经匹配了
-//                    isMatchSplit = true;
-//                }
-//            }
-//            if (isMatchSplit) {
-//                byte[] part = new byte[i - latestStartIndex];
-//                System.arraycopy(encrypted, latestStartIndex, part, 0, part.length);
-//                byte[] decryptPart = decryptData(part, privateKey);
-//                for (byte b : decryptPart) {
-//                    allBytes.add(b);
-//                }
-//                latestStartIndex = i + splitLen;
-//                i = latestStartIndex - 1;
-//            }
-//        }
-//        byte[] bytes = new byte[allBytes.size()];
-//        {
-//            int i = 0;
-//            for (Byte b : allBytes) {
-//                bytes[i++] = b.byteValue();
-//            }
-//        }
-//        return bytes;
-//    }
 
 
     /**

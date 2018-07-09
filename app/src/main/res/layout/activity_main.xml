@@ -27,6 +27,11 @@
             android:layout_height="wrap_content"
             android:text="测试读取文件"/>
         <Button
+            android:id="@+id/btn_test_post_file_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="测试将文本内容传到服务器"/>
+        <Button
             android:id="@+id/btn_test_deleted"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

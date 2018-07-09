@@ -79,6 +79,11 @@ public class HttpUtils {
         return this;
     }
 
+    public HttpUtils setPostData(String postData) {
+        httpBody.setPostData(postData);
+        return this;
+    }
+
 
     /**
      * 执行POST请求

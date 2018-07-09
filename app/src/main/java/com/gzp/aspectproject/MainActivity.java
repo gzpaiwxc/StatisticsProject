@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btnTestFile = findViewById(R.id.btn_test_file);
         Button btnTestRead = findViewById(R.id.btn_test_read);
         Button btnTestDelete = findViewById(R.id.btn_test_deleted);
+        Button btnTestPostData = findViewById(R.id.btn_test_post_file_data);
+        btnTestPostData.setOnClickListener(this);
         btnTestDelete.setOnClickListener(this);
         btnToRSA.setOnClickListener(this);
         btnTest.setOnClickListener(this);
@@ -145,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         params.put("name", "hello");
         params.put("time", String.valueOf(timel));
         params.put("hello", "hello world");
-        StatisticsSDK.logEvent("点击测试按钮", new HashMap<String, Object>());
+        StatisticsSDK.logEvent("点击测试按钮", params);
     }
 
     private void testPermission() {
@@ -215,6 +217,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_test_deleted:
                 StatisticsSDK.deleteFile();
+                break;
+            case R.id.btn_test_post_file_data:
+                StatisticsSDK.postFileDataToService();
                 break;
         }
     }

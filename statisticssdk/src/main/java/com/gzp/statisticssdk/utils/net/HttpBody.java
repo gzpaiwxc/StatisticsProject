@@ -20,6 +20,11 @@ public class HttpBody {
     private Map<String, Object> params = new HashMap<>();
 
     /**
+     * 请求的参数，一段文本内容
+     */
+    private String postData;
+
+    /**
      * 读取超时时间，默认10秒
      */
     private int readTimeOut = 10 * 1000;
@@ -48,6 +53,14 @@ public class HttpBody {
     public HttpBody addParams(String key, Object value) {
         params.put(key, value);
         return this;
+    }
+
+    public String getPostData() {
+        return postData;
+    }
+
+    public void setPostData(String postData) {
+        this.postData = postData;
     }
 
     public int getReadTimeOut() {

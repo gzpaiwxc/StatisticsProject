@@ -10,12 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 
 
 /**
- * <pre>
- *     author: Blankj
- *     blog  : http://blankj.com
- *     time  : 2017/12/29
- *     desc  : The constants of permission.
- * </pre>
+ * 权限常量
  */
 @SuppressLint("InlinedApi")
 public final class PermissionConstants {
