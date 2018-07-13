@@ -5,7 +5,7 @@
 
     <application>
         <activity
-            android:name=".utils.permission.PermissionUtils$PermissionActivity"
+            android:name="com.taihaoli.statisticssdk.utils.permission.PermissionUtils$PermissionActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:multiprocess="true"
             android:theme="@style/ActivityTranslucent"
